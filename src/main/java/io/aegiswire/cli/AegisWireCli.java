@@ -1,0 +1,9 @@
+package io.aegiswire.cli;
+import io.aegiswire.analysis.*; import io.aegiswire.policy.*; import io.aegiswire.report.*; import java.nio.file.*; import java.util.*;
+public class AegisWireCli {
+    public static void main(String[] args) throws Exception { int code=new AegisWireCli().run(args); if(code!=0) System.exit(code); }
+    public int run(String[] args) throws Exception { if(args.length==0){ usage(); return 2; } String cmd=args[0]; Map<String,String> o=parse(Arrays.copyOfRange(args,1,args.length)); if("inspect".equals(cmd)||"explain".equals(cmd)){ String format=req(o,"format"); byte[] data=Files.readAllBytes(Paths.get(req(o,"input"))); PolicyBundle b=o.containsKey("bundle")?PolicyParser.parse(Files.readAllBytes(Paths.get(o.get("bundle")))):BuiltInPolicyCatalog.defaultBundle(); PolicyResult r=new TelemetryAnalyzer(b).inspect(format,data); System.out.print("json".equals(o.get("report"))?new JsonReport().render(r):new TextReport().render(r)); return 0; } if("policy".equals(cmd)){ PolicyBundle b=PolicyParser.parse(Files.readAllBytes(Paths.get(req(o,"bundle")))); byte[] event=Files.readAllBytes(Paths.get(req(o,"event"))); PolicyResult r=new TelemetryAnalyzer(b).inspect(o.containsKey("format")?o.get("format"):"log", event); System.out.print(new TextReport().render(r)); return 0; } usage(); return 2; }
+    private Map<String,String> parse(String[] a){ Map<String,String> m=new LinkedHashMap<String,String>(); for(int i=0;i<a.length;i++){ String x=a[i]; if(x.startsWith("--")){ String k=x.substring(2); String v=(i+1<a.length&&!a[i+1].startsWith("--"))?a[++i]:"true"; m.put(k,v); }} return m; }
+    private String req(Map<String,String> m,String k){ if(!m.containsKey(k)) throw new IllegalArgumentException("missing --"+k); return m.get(k); }
+    private void usage(){ System.err.println("usage: AegisWireCli inspect --format <http|dns|tls|log> --input <file> [--bundle <file>] [--report json]"); }
+}

@@ -1,0 +1,3 @@
+package io.aegiswire.tls;
+import java.util.*;
+public class TlsClientHello { private final String version, serverName; private final List<Integer> ciphers; private final List<String> alpn; private final List<TlsExtension> exts; public TlsClientHello(String v,String s,List<Integer> c,List<String>a,List<TlsExtension>e){version=v;serverName=s;ciphers=c;alpn=a;exts=e;} public String version(){return version;} public String serverName(){return serverName;} public List<Integer> cipherSuites(){return Collections.unmodifiableList(ciphers);} public List<String> alpn(){return Collections.unmodifiableList(alpn);} public String alpnCsv(){return String.join(",",alpn);} public List<TlsExtension> extensions(){return Collections.unmodifiableList(exts);} }

@@ -1,0 +1,2 @@
+package io.aegiswire.dns;
+public class DnsRecord { private final String name; private final int type, clazz; private final long ttl; private final byte[] data; public DnsRecord(String n,int t,int c,long ttl,byte[] d){name=n;type=t;clazz=c;this.ttl=ttl;data=d;} public String name(){return name;} public int type(){return type;} public int clazz(){return clazz;} public long ttl(){return ttl;} public byte[] data(){return data;} }

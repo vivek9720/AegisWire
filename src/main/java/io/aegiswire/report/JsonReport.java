@@ -1,0 +1,3 @@
+package io.aegiswire.report;
+import io.aegiswire.policy.*; import io.aegiswire.core.*; import io.aegiswire.util.JsonLite;
+public class JsonReport { public String render(PolicyResult r){ StringBuilder b=new StringBuilder(); b.append("{\"score\":").append(r.score()).append(",\"severity\":").append(JsonLite.quote(r.maxSeverity().name())).append(",\"findings\":["); boolean first=true; for(Finding f:r.findings()){ if(!first)b.append(','); first=false; b.append("{\"id\":").append(JsonLite.quote(f.id())).append(",\"severity\":").append(JsonLite.quote(f.severity().name())).append(",\"message\":").append(JsonLite.quote(f.message())).append(",\"evidence\":").append(JsonLite.object(f.evidence())).append('}'); } return b.append("]}").toString(); } }

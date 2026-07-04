@@ -1,0 +1,2 @@
+package io.aegiswire.model;
+public class IpAddress { private final long value; private IpAddress(long v){value=v&0xffffffffL;} public long value(){return value;} public static IpAddress parse(String s){ String[] p=s.split("\\."); if(p.length!=4) throw new IllegalArgumentException("bad IPv4"); long v=0; for(String x:p){ int n=Integer.parseInt(x); if(n<0||n>255) throw new IllegalArgumentException("bad octet"); v=(v<<8)|n;} return new IpAddress(v);} }

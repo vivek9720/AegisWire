@@ -1,0 +1,7 @@
+rule suspicious-admin
+when http.path contains /admin
+score high
+severity high
+tag reconnaissance
+note administrative probing
+end

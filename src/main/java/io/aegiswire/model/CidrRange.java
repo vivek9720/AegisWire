@@ -1,0 +1,2 @@
+package io.aegiswire.model;
+public class CidrRange { private final IpAddress base; private final int bits; private final long mask; public CidrRange(IpAddress b,int bits){this.base=b;this.bits=bits;this.mask=bits==0?0:0xffffffffL<<(32-bits)&0xffffffffL;} public static CidrRange parse(String s){int slash=s.indexOf('/'); if(slash<0)return new CidrRange(IpAddress.parse(s),32); return new CidrRange(IpAddress.parse(s.substring(0,slash)), Integer.parseInt(s.substring(slash+1)));} public boolean contains(IpAddress ip){return (ip.value()&mask)==(base.value()&mask);} }

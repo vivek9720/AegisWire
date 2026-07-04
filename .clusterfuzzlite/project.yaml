@@ -1,0 +1,11 @@
+language: jvm
+fuzzing_engines:
+  - libfuzzer
+sanitizers:
+  - address
+fuzz_targets:
+  - HttpRequestFuzzer
+  - DnsMessageFuzzer
+  - TlsClientHelloFuzzer
+  - PolicyBundleFuzzer
+  - LogEventFuzzer

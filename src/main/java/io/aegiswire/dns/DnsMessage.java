@@ -1,0 +1,3 @@
+package io.aegiswire.dns;
+import java.util.*;
+public class DnsMessage { private final int id, flags; private final java.util.List<DnsQuestion> questions; private final java.util.List<DnsRecord> answers; public DnsMessage(int id,int flags,List<DnsQuestion> q,List<DnsRecord> a){this.id=id;this.flags=flags;questions=q;answers=a;} public int id(){return id;} public int flags(){return flags;} public int opcode(){return (flags>>11)&15;} public List<DnsQuestion> questions(){return Collections.unmodifiableList(questions);} public List<DnsRecord> answers(){return Collections.unmodifiableList(answers);} }
